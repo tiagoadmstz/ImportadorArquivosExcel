@@ -13,6 +13,7 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 /**
@@ -30,10 +31,25 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
     public Form_Importar_Excel() {
         initComponents();
         listener = new Listener_Importar_Excel(this);
+        dataTest();
     }
 
+    private void dataTest(){
+        txtEnderecoBanco.setText("jdbc:derby://10.10.11.158:1527//home/databases/sres_db");
+        txtUsuarioBanco.setText("root");
+        txtPasswordBanco.setText("Sermed159#%&");
+    }
+    
     public List<JComponent> getListaBotoes(){
-        return Arrays.asList(btTestarConexao);
+        return Arrays.asList(btTestarConexao, btAddTabela, btCarregar, btRemover, btAddTodas, btRemoverTodas, btSelecionarArquivo);
+    }
+
+    public JTable getTbTabelaDestOpcao() {
+        return tbTabelaDestOpcao;
+    }
+
+    public JTable getTbTabelaDestSelecionada() {
+        return tbTabelaDestSelecionada;
     }
 
     public JLabel getLbRespostaTesteConexao() {
@@ -56,6 +72,10 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
         return txtUsuarioBanco;
     }
 
+    public JTextField getTxtArquivo() {
+        return txtArquivo;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,7 +85,8 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        painelCamadas = new javax.swing.JLayeredPane();
+        painelMain = new javax.swing.JPanel();
+        painelGuias = new javax.swing.JTabbedPane();
         painelEntradaParametros = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -77,12 +98,33 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
         txtPasswordBanco = new javax.swing.JPasswordField();
         btTestarConexao = new javax.swing.JButton();
         cbDriver = new javax.swing.JComboBox<>();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        jLabel5 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        txtArquivo = new javax.swing.JTextField();
+        btSelecionarArquivo = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        scTabelaDestOpcao = new javax.swing.JScrollPane();
+        tbTabelaDestOpcao = new javax.swing.JTable();
+        btCarregar = new javax.swing.JButton();
+        btAddTabela = new javax.swing.JButton();
+        btRemover = new javax.swing.JButton();
+        btAddTodas = new javax.swing.JButton();
+        btRemoverTodas = new javax.swing.JButton();
+        scTabelaDestSelecionada = new javax.swing.JScrollPane();
+        tbTabelaDestSelecionada = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        menuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Importar Registros do Excel");
+
+        painelMain.setName(""); // NOI18N
 
         jLabel1.setText("Endereço JDBC do Banco de Dados");
 
@@ -95,7 +137,20 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
         btTestarConexao.setText("Testar Conexão");
         btTestarConexao.setActionCommand("testarConexao");
 
-        cbDriver.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "org.apache.derby.jdbc.ClientDriver", "com.mysql.jdbc.Driver", "org.postgresql.Driver" }));
+        cbDriver.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "org.apache.derby.jdbc.ClientDriver", "com.mysql.jdbc.Driver", "org.postgresql.Driver", "oracle.jdbc.OracleDriver" }));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel5.setText("Informações necessárias para fazer upload dos registros para o banco de dados. Nenhum dos dados aqui fornecidos serão gravados.");
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setText("Arquivo de dados do Excel que será utilizado como fonte de registros.");
+
+        jLabel7.setText("Arquivo de Dados");
+
+        txtArquivo.setEditable(false);
+
+        btSelecionarArquivo.setText("Selecionar Arquivo");
+        btSelecionarArquivo.setActionCommand("selecionarArquivo");
 
         javax.swing.GroupLayout painelEntradaParametrosLayout = new javax.swing.GroupLayout(painelEntradaParametros);
         painelEntradaParametros.setLayout(painelEntradaParametrosLayout);
@@ -103,30 +158,44 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
             painelEntradaParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelEntradaParametrosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(painelEntradaParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painelEntradaParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtEnderecoBanco)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(painelEntradaParametrosLayout.createSequentialGroup()
+                        .addGroup(painelEntradaParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(painelEntradaParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtUsuarioBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPasswordBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 461, Short.MAX_VALUE))
+                            .addComponent(txtEnderecoBanco)
+                            .addGroup(painelEntradaParametrosLayout.createSequentialGroup()
+                                .addGroup(painelEntradaParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtUsuarioBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtPasswordBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(painelEntradaParametrosLayout.createSequentialGroup()
+                                .addComponent(btTestarConexao, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lbRespostaTesteConexao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(cbDriver, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jSeparator1)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
                     .addGroup(painelEntradaParametrosLayout.createSequentialGroup()
-                        .addComponent(btTestarConexao)
+                        .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lbRespostaTesteConexao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(cbDriver, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(txtArquivo))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelEntradaParametrosLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btSelecionarArquivo)))
                 .addContainerGap())
         );
         painelEntradaParametrosLayout.setVerticalGroup(
             painelEntradaParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelEntradaParametrosLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
                 .addGroup(painelEntradaParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtEnderecoBanco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -146,43 +215,167 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
                 .addGroup(painelEntradaParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btTestarConexao)
                     .addComponent(lbRespostaTesteConexao, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(281, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(painelEntradaParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btSelecionarArquivo)
+                .addContainerGap(108, Short.MAX_VALUE))
         );
 
-        painelCamadas.setLayer(painelEntradaParametros, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        painelGuias.addTab("Banco de Dados", painelEntradaParametros);
 
-        javax.swing.GroupLayout painelCamadasLayout = new javax.swing.GroupLayout(painelCamadas);
-        painelCamadas.setLayout(painelCamadasLayout);
-        painelCamadasLayout.setHorizontalGroup(
-            painelCamadasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(painelEntradaParametros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        tbTabelaDestOpcao.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        scTabelaDestOpcao.setViewportView(tbTabelaDestOpcao);
+
+        btCarregar.setText("Carregar");
+        btCarregar.setActionCommand("carregarTabelas");
+
+        btAddTabela.setText("Adicionar");
+        btAddTabela.setActionCommand("addTabelaDestino");
+
+        btRemover.setText("Remover");
+        btRemover.setActionCommand("removeTabelaDestino");
+
+        btAddTodas.setText("Add Todas");
+        btAddTodas.setActionCommand("addTodas");
+
+        btRemoverTodas.setText("Remover Todas");
+        btRemoverTodas.setActionCommand("removerTodas");
+
+        tbTabelaDestSelecionada.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        scTabelaDestSelecionada.setViewportView(tbTabelaDestSelecionada);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scTabelaDestOpcao, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btAddTabela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btRemover, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btCarregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btAddTodas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btRemoverTodas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scTabelaDestSelecionada, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
-        painelCamadasLayout.setVerticalGroup(
-            painelCamadasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(painelEntradaParametros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btCarregar)
+                        .addGap(78, 78, 78)
+                        .addComponent(btAddTabela)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btRemover)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btAddTodas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btRemoverTodas)
+                        .addGap(0, 138, Short.MAX_VALUE))
+                    .addComponent(scTabelaDestSelecionada, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(scTabelaDestOpcao, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        painelGuias.addTab("Tabela de Destino", jPanel1);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(580, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(48, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        painelGuias.addTab("Arquivo Excel", jPanel2);
+
+        javax.swing.GroupLayout painelMainLayout = new javax.swing.GroupLayout(painelMain);
+        painelMain.setLayout(painelMainLayout);
+        painelMainLayout.setHorizontalGroup(
+            painelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelMainLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(painelGuias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        painelMainLayout.setVerticalGroup(
+            painelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(painelGuias, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        menuBar.add(jMenu1);
 
         jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        menuBar.add(jMenu2);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(painelCamadas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addComponent(painelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(painelCamadas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(painelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -200,7 +393,7 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -226,18 +419,38 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btAddTabela;
+    private javax.swing.JButton btAddTodas;
+    private javax.swing.JButton btCarregar;
+    private javax.swing.JButton btRemover;
+    private javax.swing.JButton btRemoverTodas;
+    private javax.swing.JButton btSelecionarArquivo;
     private javax.swing.JButton btTestarConexao;
     private javax.swing.JComboBox<String> cbDriver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lbRespostaTesteConexao;
-    private javax.swing.JLayeredPane painelCamadas;
+    private javax.swing.JMenuBar menuBar;
     private javax.swing.JPanel painelEntradaParametros;
+    private javax.swing.JTabbedPane painelGuias;
+    private javax.swing.JPanel painelMain;
+    private javax.swing.JScrollPane scTabelaDestOpcao;
+    private javax.swing.JScrollPane scTabelaDestSelecionada;
+    private javax.swing.JTable tbTabelaDestOpcao;
+    private javax.swing.JTable tbTabelaDestSelecionada;
+    private javax.swing.JTextField txtArquivo;
     private javax.swing.JTextField txtEnderecoBanco;
     private javax.swing.JPasswordField txtPasswordBanco;
     private javax.swing.JTextField txtUsuarioBanco;
