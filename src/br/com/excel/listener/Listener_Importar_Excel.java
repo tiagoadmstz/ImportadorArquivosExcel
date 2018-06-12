@@ -6,10 +6,12 @@
 package br.com.excel.listener;
 
 import br.com.excel.dal.DAO_DerbyDb;
+import br.com.excel.entities.Row_Excel;
 import br.com.excel.entities.Tabela_BD;
 import br.com.excel.entities.Tabela_Excel;
 import br.com.excel.frames.Form_Importar_Excel;
 import br.com.excel.interfaces.DAO_Util;
+import br.com.excel.tablemodel.TableModel_ExcelColumn;
 import br.com.excel.tablemodel.TableModel_TabDestino;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -24,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.AbstractButton;
 import javax.swing.JFileChooser;
+import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -43,6 +46,7 @@ public class Listener_Importar_Excel implements ActionListener {
     private DAO_Util dao;
     private TableModel_TabDestino modelTbDestino_1;
     private TableModel_TabDestino modelTbDestino_2;
+    private TableModel_ExcelColumn modelExcel;
     private final List<Tabela_BD> tabelasSelecionadas = new ArrayList();
     private final Tabela_Excel excel = new Tabela_Excel();
     private File arquivoDados;
@@ -102,6 +106,7 @@ public class Listener_Importar_Excel implements ActionListener {
     private void addModel() {
         modelTbDestino_1 = new TableModel_TabDestino();
         modelTbDestino_2 = new TableModel_TabDestino(tabelasSelecionadas);
+        modelExcel = new TableModel_ExcelColumn();
         form.getTbTabelaDestOpcao().setModel(modelTbDestino_1);
         form.getTbTabelaDestSelecionada().setModel(modelTbDestino_2);
     }
@@ -205,25 +210,30 @@ public class Listener_Importar_Excel implements ActionListener {
             XSSFWorkbook workbook = getXlsFile();
             XSSFSheet spreadsheet = workbook.getSheetAt(0);
             Iterator<Row> rowIterator = spreadsheet.iterator();
-            int columns = 0;
-            Map<Integer, Map<CellAddress, Object>> tabela = new HashMap();
-            
+            List<Row_Excel> lista_rows = new ArrayList();
+
             while (rowIterator.hasNext()) {
                 row = (XSSFRow) rowIterator.next();
                 Iterator<Cell> cellIterator = row.cellIterator();
+                Row_Excel row_excel = new Row_Excel();
 
                 while (cellIterator.hasNext()) {
                     Cell cell = cellIterator.next();
-                    if (columns < cell.getColumnIndex()) {
-                        columns = cell.getColumnIndex();
-                    }
-                    excel.putTable(cell.getAddress(), cell.getStringCellValue());
+                    row_excel.putColumn(cell.getColumnIndex(), cell.getStringCellValue());
                 }
+                lista_rows.add(row_excel);
             }
+            
+            excel.setRows(lista_rows);
+            excel.gerarColunsName();
 
-            columns++;
-            System.out.println("Essa tabela tem " + columns + " colunas");
-
+            modelExcel.setColmunName(excel.getColumnsName());
+            modelExcel.addLista(lista_rows);
+            form.getTbExcel().setModel(modelExcel);
+            form.getTbExcel().setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            
+            form.getLbDetalhesExcel().setText("<html><body><b>Registros:</b> " + excel.getRowCount() + "<br><b>Colunas:  </b> " + excel.getColumnCount() + "</body></html>");
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -5,6 +5,7 @@
  */
 package br.com.excel.tablemodel;
 
+import br.com.excel.entities.Row_Excel;
 import br.com.excel.entities.Tabela_Excel;
 import java.util.List;
 
@@ -12,34 +13,25 @@ import java.util.List;
  *
  * @author tiago.teixeira
  */
-public class TableModel_ExcelColumn extends TableModelDefaultAdapter<Tabela_Excel> {
+public class TableModel_ExcelColumn extends TableModelDefaultAdapter<Row_Excel> {
 
     private static final long serialVersionUID = 7327500923604054821L;
-    private String[] columnsName = new String[]{"Célula", "Valor"};
 
     public TableModel_ExcelColumn() {
-        setColmunName(columnsName);
     }
 
-    public TableModel_ExcelColumn(List<Tabela_Excel> lista) {
+    public TableModel_ExcelColumn(List<Row_Excel> lista) {
         super(lista);
-        setColmunName(columnsName);
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Tabela_Excel te = lista.get(rowIndex);
-        switch (columnIndex) {
-            case 0:
-                return te.getTabela_excel();
-            default:
-                return null;
-        }
+        return lista.get(rowIndex).getColumn(columnIndex);
     }
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        super.setValueAt(aValue, rowIndex, columnIndex); //To change body of generated methods, choose Tools | Templates.
+        lista.get(rowIndex).putColumn(columnIndex, aValue);
     }
     
 }
