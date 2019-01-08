@@ -9,29 +9,25 @@ import br.com.excel.dal.DAO_DerbyDb;
 import br.com.excel.entities.Row_Excel;
 import br.com.excel.entities.Tabela_BD;
 import br.com.excel.entities.Tabela_Excel;
+import br.com.excel.enumerated.DataBaseEnum;
 import br.com.excel.frames.Form_Importar_Excel;
 import br.com.excel.interfaces.DAO_Util;
-import br.com.excel.tablemodel.TableModel_ExcelColumn;
 import br.com.excel.tablemodel.TableModel_TabDestino;
+import br.com.excel.util.DaoUtil;
+import br.com.excel.util.ExcelUtil;
+import br.com.excel.util.FileUtil;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import javax.swing.AbstractButton;
 import javax.swing.JFileChooser;
-import javax.swing.JTable;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.util.CellAddress;
-import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -42,14 +38,15 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class Listener_Importar_Excel implements ActionListener {
 
     private final Form_Importar_Excel form;
-    private final int DERBYDB = 0, MYSQL = 1, POSTGRE = 2, ORACLE = 3;
     private DAO_Util dao;
     private TableModel_TabDestino modelTbDestino_1;
     private TableModel_TabDestino modelTbDestino_2;
-    private TableModel_ExcelColumn modelExcel;
     private final List<Tabela_BD> tabelasSelecionadas = new ArrayList();
-    private final Tabela_Excel excel = new Tabela_Excel();
+    private final List<JPanel> paineis_planilhas = new ArrayList();
+    private final List<JScrollPane> scrolls_planilhas = new ArrayList();
     private File arquivoDados;
+    private ExcelUtil util;
+    private DaoUtil daoUtil;
 
     public Listener_Importar_Excel(Form_Importar_Excel form) {
         this.form = form;
@@ -61,13 +58,12 @@ public class Listener_Importar_Excel implements ActionListener {
         addModel();
     }
 
-    private void initDao() {
-        if (form.getCbDriver().getSelectedIndex() == DERBYDB) {
-            dao = new DAO_DerbyDb(form.getCbDriver().getSelectedItem().toString(),
-                    form.getTxtEnderecoBanco().getText(),
-                    form.getTxtUsuarioBanco().getText(),
-                    String.valueOf(form.getTxtPasswordBanco().getPassword()));
-        }
+    private void initDao(int index) {
+        daoUtil = new DaoUtil(form.getCbDriver().getSelectedItem().toString(),
+                form.getTxtEnderecoBanco().getText(),
+                form.getTxtUsuarioBanco().getText(),
+                String.valueOf(form.getTxtPasswordBanco().getPassword()));
+        dao = daoUtil.getDao(DataBaseEnum.getEnum(index));
     }
 
     private void attachListeners() {
@@ -106,7 +102,6 @@ public class Listener_Importar_Excel implements ActionListener {
     private void addModel() {
         modelTbDestino_1 = new TableModel_TabDestino();
         modelTbDestino_2 = new TableModel_TabDestino(tabelasSelecionadas);
-        modelExcel = new TableModel_ExcelColumn();
         form.getTbTabelaDestOpcao().setModel(modelTbDestino_1);
         form.getTbTabelaDestSelecionada().setModel(modelTbDestino_2);
     }
@@ -114,7 +109,7 @@ public class Listener_Importar_Excel implements ActionListener {
     private void testarConexao() {
         boolean result = false;
         try {
-            initDao();
+            initDao(form.getCbDriver().getSelectedIndex());
             result = dao.testarConexao();
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,7 +126,7 @@ public class Listener_Importar_Excel implements ActionListener {
 
     private void carregarTabelas() {
         if (dao == null) {
-            initDao();
+            initDao(form.getCbDriver().getSelectedIndex());
         }
         modelTbDestino_1.deletarLista();
         modelTbDestino_1.addLista(Arrays.asList(dao.getTabelasDB()));
@@ -172,71 +167,38 @@ public class Listener_Importar_Excel implements ActionListener {
     }
 
     private void selecionarArquivo() {
+        arquivoDados = FileUtil.selecionarArquivo(form);
+        if (util == null) {
+            util = new ExcelUtil(arquivoDados);
+        } else {
+            util.setArquivoDados(arquivoDados);
+        }
+        form.getTxtArquivo().setText(arquivoDados.getName());
+        lerFolhasExcel();
+    }
+
+    public void lerFolhasExcel() {
         try {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.removeChoosableFileFilter(fileChooser.getFileFilter());
-            fileChooser.setFileFilter(new FileNameExtensionFilter("Arquivo do Excel", "xls", "xlsx"));
-            fileChooser.setMultiSelectionEnabled(false);
-            fileChooser.setSize(200, 150);
-            if (fileChooser.showDialog(form, "Selecionar") == JFileChooser.APPROVE_OPTION) {
-                arquivoDados = fileChooser.getSelectedFile();
-                form.getTxtArquivo().setText(arquivoDados.getName());
-            }
-            lerFolhaExcel();
+            XSSFWorkbook workbook = util.getXlsFile();
+            List<XSSFSheet> planilhas = util.getPlanilhas(workbook);
+            restartComponents();
+            planilhas.forEach((planilha) -> {
+                List<Row_Excel> rows = util.getRows(planilha);
+                Tabela_Excel tabela = new Tabela_Excel(rows);
+                tabela.setName(planilha.getSheetName());
+                util.addPlanilhaToTable(planilha.getSheetName(), rows);
+                util.montarLabel(tabela, form.getPainelDetalhesExcel());
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public XSSFWorkbook getXlsFile() {
-        try {
-            FileInputStream input = new FileInputStream(arquivoDados);
-            XSSFWorkbook workbook = new XSSFWorkbook(input);
-            input.close();
-            if (arquivoDados.isFile() && arquivoDados.exists()) {
-                return workbook;
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public void lerFolhaExcel() {
-        try {
-            XSSFRow row;
-            XSSFWorkbook workbook = getXlsFile();
-            XSSFSheet spreadsheet = workbook.getSheetAt(0);
-            Iterator<Row> rowIterator = spreadsheet.iterator();
-            List<Row_Excel> lista_rows = new ArrayList();
-
-            while (rowIterator.hasNext()) {
-                row = (XSSFRow) rowIterator.next();
-                Iterator<Cell> cellIterator = row.cellIterator();
-                Row_Excel row_excel = new Row_Excel();
-
-                while (cellIterator.hasNext()) {
-                    Cell cell = cellIterator.next();
-                    row_excel.putColumn(cell.getColumnIndex(), cell.getStringCellValue());
-                }
-                lista_rows.add(row_excel);
-            }
-            
-            excel.setRows(lista_rows);
-            excel.gerarColunsName();
-
-            modelExcel.setColmunName(excel.getColumnsName());
-            modelExcel.addLista(lista_rows);
-            form.getTbExcel().setModel(modelExcel);
-            form.getTbExcel().setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-            
-            form.getLbDetalhesExcel().setText("<html><body><b>Registros:</b> " + excel.getRowCount() + "<br><b>Colunas:  </b> " + excel.getColumnCount() + "</body></html>");
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void restartComponents() {
+        paineis_planilhas.clear();
+        scrolls_planilhas.clear();
+        form.getTbbPlans().removeAll();
+        form.getPainelDetalhesExcel().removeAll();
     }
 
 }

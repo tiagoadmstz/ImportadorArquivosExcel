@@ -11,7 +11,9 @@ import java.util.Arrays;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
@@ -43,8 +45,8 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
         return Arrays.asList(btTestarConexao, btAddTabela, btCarregar, btRemover, btAddTodas, btRemoverTodas, btSelecionarArquivo);
     }
 
-    public JTable getTbExcel() {
-        return tbExcel;
+    public JTabbedPane getTbbPlans() {
+        return tbbPlans;
     }
 
     public JTable getTbTabelaDestOpcao() {
@@ -79,8 +81,8 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
         return txtArquivo;
     }
 
-    public JLabel getLbDetalhesExcel() {
-        return lbDetalhesExcel;
+    public JPanel getPainelDetalhesExcel() {
+        return painelDetalhesExcel;
     }
 
     /**
@@ -111,8 +113,8 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         txtArquivo = new javax.swing.JTextField();
         btSelecionarArquivo = new javax.swing.JButton();
-        lbDetalhesExcel = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        painelDetalhesExcel = new javax.swing.JPanel();
+        painelTabDestino = new javax.swing.JPanel();
         scTabelaDestOpcao = new javax.swing.JScrollPane();
         tbTabelaDestOpcao = new javax.swing.JTable();
         btCarregar = new javax.swing.JButton();
@@ -122,9 +124,9 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
         btRemoverTodas = new javax.swing.JButton();
         scTabelaDestSelecionada = new javax.swing.JScrollPane();
         tbTabelaDestSelecionada = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
-        scTableExcel = new javax.swing.JScrollPane();
-        tbExcel = new javax.swing.JTable();
+        painelArquivoExcel = new javax.swing.JPanel();
+        scPlans = new javax.swing.JScrollPane();
+        tbbPlans = new javax.swing.JTabbedPane();
         menuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -160,18 +162,18 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
         btSelecionarArquivo.setText("Selecionar Arquivo");
         btSelecionarArquivo.setActionCommand("selecionarArquivo");
 
-        lbDetalhesExcel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbDetalhesExcel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        painelDetalhesExcel.setLayout(new java.awt.GridBagLayout());
 
         javax.swing.GroupLayout painelEntradaParametrosLayout = new javax.swing.GroupLayout(painelEntradaParametros);
         painelEntradaParametros.setLayout(painelEntradaParametrosLayout);
         painelEntradaParametrosLayout.setHorizontalGroup(
             painelEntradaParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(painelEntradaParametrosLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelEntradaParametrosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(painelEntradaParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(painelEntradaParametrosLayout.createSequentialGroup()
+                .addGroup(painelEntradaParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(painelDetalhesExcel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, painelEntradaParametrosLayout.createSequentialGroup()
                         .addGroup(painelEntradaParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -190,16 +192,15 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(lbRespostaTesteConexao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(cbDriver, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jSeparator1)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelEntradaParametrosLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btSelecionarArquivo))
-                    .addGroup(painelEntradaParametrosLayout.createSequentialGroup()
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, painelEntradaParametrosLayout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(painelEntradaParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbDetalhesExcel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(painelEntradaParametrosLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btSelecionarArquivo))
                             .addComponent(txtArquivo))))
                 .addContainerGap())
         );
@@ -239,7 +240,7 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btSelecionarArquivo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbDetalhesExcel, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                .addComponent(painelDetalhesExcel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -286,30 +287,30 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
         ));
         scTabelaDestSelecionada.setViewportView(tbTabelaDestSelecionada);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout painelTabDestinoLayout = new javax.swing.GroupLayout(painelTabDestino);
+        painelTabDestino.setLayout(painelTabDestinoLayout);
+        painelTabDestinoLayout.setHorizontalGroup(
+            painelTabDestinoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelTabDestinoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scTabelaDestOpcao, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
+                .addComponent(scTabelaDestOpcao, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(painelTabDestinoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btAddTabela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btRemover, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btCarregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btAddTodas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btRemoverTodas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scTabelaDestSelecionada, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+                .addComponent(scTabelaDestSelecionada, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        painelTabDestinoLayout.setVerticalGroup(
+            painelTabDestinoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelTabDestinoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(painelTabDestinoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelTabDestinoLayout.createSequentialGroup()
                         .addComponent(btCarregar)
                         .addGap(78, 78, 78)
                         .addComponent(btAddTabela)
@@ -325,36 +326,26 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        painelGuias.addTab("Tabela de Destino", jPanel1);
+        painelGuias.addTab("Tabela de Destino", painelTabDestino);
 
-        tbExcel.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+        scPlans.setBorder(null);
 
-            },
-            new String [] {
-                "Colunas"
-            }
-        ));
-        scTableExcel.setViewportView(tbExcel);
+        tbbPlans.setMaximumSize(new java.awt.Dimension(776, 354));
+        tbbPlans.setPreferredSize(new java.awt.Dimension(776, 354));
+        scPlans.setViewportView(tbbPlans);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(scTableExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(440, Short.MAX_VALUE))
+        javax.swing.GroupLayout painelArquivoExcelLayout = new javax.swing.GroupLayout(painelArquivoExcel);
+        painelArquivoExcel.setLayout(painelArquivoExcelLayout);
+        painelArquivoExcelLayout.setHorizontalGroup(
+            painelArquivoExcelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(scPlans, javax.swing.GroupLayout.DEFAULT_SIZE, 866, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(scTableExcel, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
-                .addContainerGap())
+        painelArquivoExcelLayout.setVerticalGroup(
+            painelArquivoExcelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(scPlans, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
         );
 
-        painelGuias.addTab("Arquivo Excel", jPanel2);
+        painelGuias.addTab("Arquivo Excel", painelArquivoExcel);
 
         javax.swing.GroupLayout painelMainLayout = new javax.swing.GroupLayout(painelMain);
         painelMain.setLayout(painelMainLayout);
@@ -448,21 +439,21 @@ public class Form_Importar_Excel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JLabel lbDetalhesExcel;
     private javax.swing.JLabel lbRespostaTesteConexao;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JPanel painelArquivoExcel;
+    private javax.swing.JPanel painelDetalhesExcel;
     private javax.swing.JPanel painelEntradaParametros;
     private javax.swing.JTabbedPane painelGuias;
     private javax.swing.JPanel painelMain;
+    private javax.swing.JPanel painelTabDestino;
+    private javax.swing.JScrollPane scPlans;
     private javax.swing.JScrollPane scTabelaDestOpcao;
     private javax.swing.JScrollPane scTabelaDestSelecionada;
-    private javax.swing.JScrollPane scTableExcel;
-    private javax.swing.JTable tbExcel;
     private javax.swing.JTable tbTabelaDestOpcao;
     private javax.swing.JTable tbTabelaDestSelecionada;
+    private javax.swing.JTabbedPane tbbPlans;
     private javax.swing.JTextField txtArquivo;
     private javax.swing.JTextField txtEnderecoBanco;
     private javax.swing.JPasswordField txtPasswordBanco;

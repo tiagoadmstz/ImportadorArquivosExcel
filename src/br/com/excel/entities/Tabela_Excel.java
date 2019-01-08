@@ -16,6 +16,7 @@ public class Tabela_Excel {
 
     private final List<String> letras = Arrays.asList("A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z".split(","));
     private String[] columnsName;
+    private String name;
     private List<Row_Excel> rows;
 
     public Tabela_Excel() {
@@ -31,6 +32,14 @@ public class Tabela_Excel {
 
     public void setColumnsName(String... columnsName) {
         this.columnsName = columnsName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Row_Excel> getRows() {
