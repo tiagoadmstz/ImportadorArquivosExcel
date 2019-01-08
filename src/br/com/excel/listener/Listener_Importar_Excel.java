@@ -5,7 +5,6 @@
  */
 package br.com.excel.listener;
 
-import br.com.excel.dal.DAO_DerbyDb;
 import br.com.excel.entities.Row_Excel;
 import br.com.excel.entities.Tabela_BD;
 import br.com.excel.entities.Tabela_Excel;
@@ -24,12 +23,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.AbstractButton;
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 
 /**
  *
@@ -37,16 +34,16 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class Listener_Importar_Excel implements ActionListener {
 
-    private final Form_Importar_Excel form;
-    private DAO_Util dao;
-    private TableModel_TabDestino modelTbDestino_1;
-    private TableModel_TabDestino modelTbDestino_2;
     private final List<Tabela_BD> tabelasSelecionadas = new ArrayList();
     private final List<JPanel> paineis_planilhas = new ArrayList();
     private final List<JScrollPane> scrolls_planilhas = new ArrayList();
+    private final Form_Importar_Excel form;
+    private TableModel_TabDestino modelTbDestino_1;
+    private TableModel_TabDestino modelTbDestino_2;
     private File arquivoDados;
-    private ExcelUtil util;
+    private DAO_Util dao;
     private DaoUtil daoUtil;
+    private ExcelUtil util;
 
     public Listener_Importar_Excel(Form_Importar_Excel form) {
         this.form = form;
@@ -179,15 +176,17 @@ public class Listener_Importar_Excel implements ActionListener {
 
     public void lerFolhasExcel() {
         try {
-            XSSFWorkbook workbook = util.getXlsFile();
-            List<XSSFSheet> planilhas = util.getPlanilhas(workbook);
+            Workbook workbook = util.getXlsFile();
+            List<Sheet> planilhas = util.getPlanilhas(workbook);
             restartComponents();
             planilhas.forEach((planilha) -> {
                 List<Row_Excel> rows = util.getRows(planilha);
                 Tabela_Excel tabela = new Tabela_Excel(rows);
                 tabela.setName(planilha.getSheetName());
-                util.addPlanilhaToTable(planilha.getSheetName(), rows);
+                JPanel painel = util.addPlanilhaToTable(planilha.getSheetName(), rows);
+                form.getTbbPlans().add(painel);
                 util.montarLabel(tabela, form.getPainelDetalhesExcel());
+                form.repaint();
             });
         } catch (Exception e) {
             e.printStackTrace();

@@ -19,10 +19,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
@@ -37,10 +40,16 @@ public final class ExcelUtil {
         arquivoDados = file;
     }
 
-    public XSSFWorkbook getXlsFile() {
+    public Workbook getXlsFile() {
+        FileInputStream input;
+        Workbook workbook;
         try {
-            FileInputStream input = new FileInputStream(arquivoDados);
-            XSSFWorkbook workbook = new XSSFWorkbook(input);
+            input = new FileInputStream(arquivoDados);
+            try {
+                workbook = new XSSFWorkbook(input);
+            } catch (Exception e) {
+                workbook = new HSSFWorkbook();
+            }
             input.close();
             if (arquivoDados.isFile() && arquivoDados.exists()) {
                 return workbook;
@@ -53,16 +62,16 @@ public final class ExcelUtil {
         }
     }
 
-    public List<XSSFSheet> getPlanilhas(XSSFWorkbook workbook) {
+    public List<Sheet> getPlanilhas(Workbook workbook) {
         int quant = workbook.getNumberOfSheets();
-        List<XSSFSheet> lista = new ArrayList();
+        List<Sheet> lista = new ArrayList();
         for (int p = 0; p < quant; p++) {
             lista.add(workbook.getSheetAt(p));
         }
         return lista;
     }
 
-    public List<Row_Excel> getRows(XSSFSheet sheet) {
+    public List<Row_Excel> getRows(Sheet sheet) {
         Iterator<Row> rowIterator = sheet.iterator();
         List<Row_Excel> lista_rows = new ArrayList();
 
@@ -135,5 +144,5 @@ public final class ExcelUtil {
     public void setArquivoDados(File arquivoDados) {
         this.arquivoDados = arquivoDados;
     }
-    
+
 }
